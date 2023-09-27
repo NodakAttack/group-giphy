@@ -11,24 +11,23 @@ import { takeEvery, put } from "redux-saga/effects";
 
 // reducers
 const gifList = (state = [], action) => {
-    switch (action.type) {
-      case "FETCH_GIFS":
-        return action.payload;
-      default:
-        return state;
-    }
-  };
+  switch (action.type) {
+    case "FETCH_GIFS":
+      return action.payload;
+  }
 
+  return state;
+};
 
 // sagas
 function* fetchGifs() {
-    try {
-      const gifsResponse = yield axios.get("/gifs");
-      yield put({ type: "FETCH_GIFS", payload: gifsResponse.data});
-    } catch (error) {
-      console.log("error fetching gifs", error);
-    }
+  try {
+    const gifsResponse = yield axios.get("/gifs");
+    yield put({ type: "FETCH_GIFS", payload: gifsResponse.data });
+  } catch (error) {
+    console.log("error fetching gifs", error);
   }
+}
 
 function* rootSaga() {
   yield takeEvery("FETCH_GIFS", fetchGifs);
