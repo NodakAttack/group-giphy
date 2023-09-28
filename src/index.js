@@ -12,7 +12,7 @@ import { takeEvery, put } from "redux-saga/effects";
 // reducers
 const gifList = (state = [], action) => {
   switch (action.type) {
-    case "FETCH_GIFS":
+    case "SET_GIF_LIST":
       return action.payload;
   }
 
@@ -20,10 +20,14 @@ const gifList = (state = [], action) => {
 };
 
 // sagas
-function* fetchGifs() {
+function* fetchGifs(action) {
   try {
-    const gifsResponse = yield axios.get("/gifs");
-    yield put({ type: "FETCH_GIFS", payload: gifsResponse.data });
+    const search = action.payload;
+    const gifsResponse = yield axios.get("/gifs", {
+      params: { search },
+    });
+    yield put({ type: "SET_GIF_LIST", payload: gifsResponse.data });
+    console.log("search response", gifsResponse.data);
   } catch (error) {
     console.log("error fetching gifs", error);
   }
