@@ -1,5 +1,8 @@
+
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import "./Search.css";
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -12,7 +15,7 @@ const Search = () => {
   }, []);
 
   const handleSearchChange = (event) => {
-    setSearch(event.target.value)
+    setSearch(event.target.value);
   };
 
   const handleSearchClick = () => {
@@ -30,11 +33,15 @@ const Search = () => {
         />
         <button onClick={handleSearchClick}>Search</button>
       </div>
-      {theGifs.map((gif) => {
-        return (
-          <img key={gif.id} src={gif.images.fixed_height.url} alt={gif.title} />
-        );
-      })}
+      <div className="gif-container">
+        {theGifs.map((gif) => (
+          <div key={gif.id}>
+            <img src={gif.images.fixed_height.url} alt={gif.title} />
+            <br/>
+            <button className="favorite-button">Favorite</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
