@@ -1,37 +1,34 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { HashRouter as Router, Route, Link } from "react-router-dom/";
+
+// components
+import Search from "../Search/Search";
+import FavoritesView from "../FavoritesView/FavoritesView";
 
 function App() {
-  const dispatch = useDispatch();
-  const theGifs = useSelector((store) => store.gifList);
-
-  let search = "panda"
-
-  useEffect(() => {
-    dispatch({ type: "FETCH_GIFS", payload: search});
-  }, []);
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1 className="App-title">APIS</h1>
-        <h4>
-          <i>APIS</i>
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <h1 className="App-title">APIS</h1>
+          <nav>
+            <Link to="/">Search</Link>
+            <Link to="/favorites">Favorites</Link>
+          </nav>
 
-          {theGifs.map((gif) => {
-            return (
-              <img
-                key={gif.id}
-                src={gif.images.fixed_height.url}
-                alt={gif.title}
-              />
-            );
-          })}
-        </h4>
-      </header>
-      <br />
-    </div>
+          <h4>
+            <i>APIS</i>
+            <Route path="/" exact>
+              <Search />
+            </Route>
+            <Route path="/favorites" exact>
+              <FavoritesView />
+            </Route>
+          </h4>
+        </header>
+        <br />
+      </div>
+    </Router>
   );
 }
 
